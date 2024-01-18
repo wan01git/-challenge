@@ -1,9 +1,11 @@
 import {
   BrowserModule,
+  DomRendererFactory2
+} from "./chunk-KSFG4YU2.js";
+import {
   DOCUMENT,
-  DomRendererFactory2,
   isPlatformBrowser
-} from "./chunk-T4NB3AAD.js";
+} from "./chunk-GQON3RCK.js";
 import {
   ANIMATION_MODULE_TYPE,
   APP_ID,
@@ -78,7 +80,165 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate1,
   ɵɵviewQuery
-} from "./chunk-EXENLXES.js";
+} from "./chunk-JPYNTCMJ.js";
+
+// node_modules/@angular/cdk/fesm2022/bidi.mjs
+var DIR_DOCUMENT = new InjectionToken("cdk-dir-doc", {
+  providedIn: "root",
+  factory: DIR_DOCUMENT_FACTORY
+});
+function DIR_DOCUMENT_FACTORY() {
+  return inject(DOCUMENT);
+}
+var RTL_LOCALE_PATTERN = /^(ar|ckb|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|.*[-_](Adlm|Arab|Hebr|Nkoo|Rohg|Thaa))(?!.*[-_](Latn|Cyrl)($|-|_))($|-|_)/i;
+function _resolveDirectionality(rawValue) {
+  const value = rawValue?.toLowerCase() || "";
+  if (value === "auto" && typeof navigator !== "undefined" && navigator?.language) {
+    return RTL_LOCALE_PATTERN.test(navigator.language) ? "rtl" : "ltr";
+  }
+  return value === "rtl" ? "rtl" : "ltr";
+}
+var _Directionality = class _Directionality {
+  constructor(_document) {
+    this.value = "ltr";
+    this.change = new EventEmitter();
+    if (_document) {
+      const bodyDir = _document.body ? _document.body.dir : null;
+      const htmlDir = _document.documentElement ? _document.documentElement.dir : null;
+      this.value = _resolveDirectionality(bodyDir || htmlDir || "ltr");
+    }
+  }
+  ngOnDestroy() {
+    this.change.complete();
+  }
+};
+_Directionality.ɵfac = function Directionality_Factory(t) {
+  return new (t || _Directionality)(ɵɵinject(DIR_DOCUMENT, 8));
+};
+_Directionality.ɵprov = ɵɵdefineInjectable({
+  token: _Directionality,
+  factory: _Directionality.ɵfac,
+  providedIn: "root"
+});
+var Directionality = _Directionality;
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Directionality, [{
+    type: Injectable,
+    args: [{
+      providedIn: "root"
+    }]
+  }], () => [{
+    type: void 0,
+    decorators: [{
+      type: Optional
+    }, {
+      type: Inject,
+      args: [DIR_DOCUMENT]
+    }]
+  }], null);
+})();
+var _Dir = class _Dir {
+  constructor() {
+    this._dir = "ltr";
+    this._isInitialized = false;
+    this.change = new EventEmitter();
+  }
+  /** @docs-private */
+  get dir() {
+    return this._dir;
+  }
+  set dir(value) {
+    const previousValue = this._dir;
+    this._dir = _resolveDirectionality(value);
+    this._rawDir = value;
+    if (previousValue !== this._dir && this._isInitialized) {
+      this.change.emit(this._dir);
+    }
+  }
+  /** Current layout direction of the element. */
+  get value() {
+    return this.dir;
+  }
+  /** Initialize once default value has been set. */
+  ngAfterContentInit() {
+    this._isInitialized = true;
+  }
+  ngOnDestroy() {
+    this.change.complete();
+  }
+};
+_Dir.ɵfac = function Dir_Factory(t) {
+  return new (t || _Dir)();
+};
+_Dir.ɵdir = ɵɵdefineDirective({
+  type: _Dir,
+  selectors: [["", "dir", ""]],
+  hostVars: 1,
+  hostBindings: function Dir_HostBindings(rf, ctx) {
+    if (rf & 2) {
+      ɵɵattribute("dir", ctx._rawDir);
+    }
+  },
+  inputs: {
+    dir: "dir"
+  },
+  outputs: {
+    change: "dirChange"
+  },
+  exportAs: ["dir"],
+  standalone: true,
+  features: [ɵɵProvidersFeature([{
+    provide: Directionality,
+    useExisting: _Dir
+  }])]
+});
+var Dir = _Dir;
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Dir, [{
+    type: Directive,
+    args: [{
+      selector: "[dir]",
+      providers: [{
+        provide: Directionality,
+        useExisting: Dir
+      }],
+      host: {
+        "[attr.dir]": "_rawDir"
+      },
+      exportAs: "dir",
+      standalone: true
+    }]
+  }], null, {
+    change: [{
+      type: Output,
+      args: ["dirChange"]
+    }],
+    dir: [{
+      type: Input
+    }]
+  });
+})();
+var _BidiModule = class _BidiModule {
+};
+_BidiModule.ɵfac = function BidiModule_Factory(t) {
+  return new (t || _BidiModule)();
+};
+_BidiModule.ɵmod = ɵɵdefineNgModule({
+  type: _BidiModule,
+  imports: [Dir],
+  exports: [Dir]
+});
+_BidiModule.ɵinj = ɵɵdefineInjector({});
+var BidiModule = _BidiModule;
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BidiModule, [{
+    type: NgModule,
+    args: [{
+      imports: [Dir],
+      exports: [Dir]
+    }]
+  }], null, null);
+})();
 
 // node_modules/@angular/cdk/fesm2022/platform.mjs
 var hasV8BreakIterator;
@@ -206,6 +366,21 @@ function _isTestEnvironment() {
 
 // node_modules/@angular/animations/fesm2022/animations.mjs
 var AUTO_STYLE = "*";
+function trigger(name, definitions) {
+  return {
+    type: 7,
+    name,
+    definitions,
+    options: {}
+  };
+}
+function animate(timings, styles = null) {
+  return {
+    type: 4,
+    styles,
+    timings
+  };
+}
 function sequence(steps, options = null) {
   return {
     type: 2,
@@ -218,6 +393,22 @@ function style(tokens) {
     type: 6,
     styles: tokens,
     offset: null
+  };
+}
+function state(name, styles, options) {
+  return {
+    type: 0,
+    name,
+    styles,
+    options
+  };
+}
+function transition(stateChangeExpr, steps, options = null) {
+  return {
+    type: 1,
+    expr: stateChangeExpr,
+    animation: steps,
+    options
   };
 }
 var _AnimationBuilder = class _AnimationBuilder {
@@ -1305,10 +1496,10 @@ var AnimationAstBuilderVisitor = class {
         });
         stateDef.name = name;
       } else if (def.type == 1) {
-        const transition = this.visitTransition(def, context);
-        queryCount += transition.queryCount;
-        depCount += transition.depCount;
-        transitions.push(transition);
+        const transition2 = this.visitTransition(def, context);
+        queryCount += transition2.queryCount;
+        depCount += transition2.depCount;
+        transitions.push(transition2);
       } else {
         context.errors.push(invalidDefinition());
       }
@@ -2554,7 +2745,7 @@ function createFallbackTransition(triggerName, states, normalizer) {
     steps: [],
     options: null
   };
-  const transition = {
+  const transition2 = {
     type: 1,
     animation,
     matchers,
@@ -2562,7 +2753,7 @@ function createFallbackTransition(triggerName, states, normalizer) {
     queryCount: 0,
     depCount: 0
   };
-  return new AnimationTransitionFactory(triggerName, transition, states);
+  return new AnimationTransitionFactory(triggerName, transition2, states);
 }
 function balanceProperties(stateMap, key1, key2) {
   if (stateMap.has(key1)) {
@@ -2807,14 +2998,14 @@ var AnimationTransitionNamespace = class {
     }
   }
   _getTrigger(name) {
-    const trigger = this._triggers.get(name);
-    if (!trigger) {
+    const trigger2 = this._triggers.get(name);
+    if (!trigger2) {
       throw unregisteredTrigger(name);
     }
-    return trigger;
+    return trigger2;
   }
   trigger(element, triggerName, value, defaultToFallback = true) {
-    const trigger = this._getTrigger(triggerName);
+    const trigger2 = this._getTrigger(triggerName);
     const player = new TransitionAnimationPlayer(this.id, triggerName, element);
     let triggersWithStates = this._engine.statesByElement.get(element);
     if (!triggersWithStates) {
@@ -2836,8 +3027,8 @@ var AnimationTransitionNamespace = class {
     if (!isRemoval && fromState.value === toState.value) {
       if (!objEquals(fromState.params, toState.params)) {
         const errors = [];
-        const fromStyles = trigger.matchStyles(fromState.value, fromState.params, errors);
-        const toStyles = trigger.matchStyles(toState.value, toState.params, errors);
+        const fromStyles = trigger2.matchStyles(fromState.value, fromState.params, errors);
+        const toStyles = trigger2.matchStyles(toState.value, toState.params, errors);
         if (errors.length) {
           this._engine.reportError(errors);
         } else {
@@ -2855,19 +3046,19 @@ var AnimationTransitionNamespace = class {
         player2.destroy();
       }
     });
-    let transition = trigger.matchTransition(fromState.value, toState.value, element, toState.params);
+    let transition2 = trigger2.matchTransition(fromState.value, toState.value, element, toState.params);
     let isFallbackTransition = false;
-    if (!transition) {
+    if (!transition2) {
       if (!defaultToFallback)
         return;
-      transition = trigger.fallbackTransition;
+      transition2 = trigger2.fallbackTransition;
       isFallbackTransition = true;
     }
     this._engine.totalQueuedPlayers++;
     this._queue.push({
       element,
       triggerName,
-      transition,
+      transition: transition2,
       fromState,
       toState,
       player,
@@ -2933,8 +3124,8 @@ var AnimationTransitionNamespace = class {
     const previousTriggersValues = /* @__PURE__ */ new Map();
     if (triggerStates) {
       const players = [];
-      triggerStates.forEach((state, triggerName) => {
-        previousTriggersValues.set(triggerName, state.value);
+      triggerStates.forEach((state2, triggerName) => {
+        previousTriggersValues.set(triggerName, state2.value);
         if (this._triggers.has(triggerName)) {
           const player = this.trigger(element, triggerName, VOID_VALUE, defaultToFallback);
           if (player) {
@@ -2962,8 +3153,8 @@ var AnimationTransitionNamespace = class {
         if (visitedTriggers.has(triggerName))
           return;
         visitedTriggers.add(triggerName);
-        const trigger = this._triggers.get(triggerName);
-        const transition = trigger.fallbackTransition;
+        const trigger2 = this._triggers.get(triggerName);
+        const transition2 = trigger2.fallbackTransition;
         const fromState = elementStates.get(triggerName) || DEFAULT_STATE_VALUE;
         const toState = new StateValue(VOID_VALUE);
         const player = new TransitionAnimationPlayer(this.id, triggerName, element);
@@ -2971,7 +3162,7 @@ var AnimationTransitionNamespace = class {
         this._queue.push({
           element,
           triggerName,
-          transition,
+          transition: transition2,
           fromState,
           toState,
           player,
@@ -3139,9 +3330,9 @@ var TransitionAnimationEngine = class {
     }
     return ns;
   }
-  registerTrigger(namespaceId, name, trigger) {
+  registerTrigger(namespaceId, name, trigger2) {
     let ns = this._namespaceLookup[namespaceId];
-    if (ns && ns.register(name, trigger)) {
+    if (ns && ns.register(name, trigger2)) {
       this.totalAnimations++;
     }
   }
@@ -3440,9 +3631,9 @@ var TransitionAnimationEngine = class {
               const previousValue = details.previousTriggersValues.get(entry.triggerName);
               const triggersWithStates = this.statesByElement.get(entry.element);
               if (triggersWithStates && triggersWithStates.has(entry.triggerName)) {
-                const state = triggersWithStates.get(entry.triggerName);
-                state.value = previousValue;
-                triggersWithStates.set(entry.triggerName, state);
+                const state2 = triggersWithStates.get(entry.triggerName);
+                state2.value = previousValue;
+                triggersWithStates.set(entry.triggerName, state2);
               }
             }
             player.destroy();
@@ -4007,8 +4198,8 @@ var AnimationEngine = class {
   }
   registerTrigger(componentId, namespaceId, hostElement, name, metadata) {
     const cacheKey = componentId + "-" + name;
-    let trigger = this._triggerCache[cacheKey];
-    if (!trigger) {
+    let trigger2 = this._triggerCache[cacheKey];
+    if (!trigger2) {
       const errors = [];
       const warnings = [];
       const ast = buildAnimationAst(this._driver, metadata, errors, warnings);
@@ -4018,10 +4209,10 @@ var AnimationEngine = class {
       if (warnings.length) {
         warnTriggerBuild(name, warnings);
       }
-      trigger = buildTrigger(name, ast, this._normalizer);
-      this._triggerCache[cacheKey] = trigger;
+      trigger2 = buildTrigger(name, ast, this._normalizer);
+      this._triggerCache[cacheKey] = trigger2;
     }
-    this._transitionEngine.registerTrigger(namespaceId, name, trigger);
+    this._transitionEngine.registerTrigger(namespaceId, name, trigger2);
   }
   register(namespaceId, hostElement) {
     this._transitionEngine.register(namespaceId, hostElement);
@@ -4494,9 +4685,9 @@ function resolveElementFromTarget(target) {
 }
 function parseTriggerCallbackName(triggerName) {
   const dotIndex = triggerName.indexOf(".");
-  const trigger = triggerName.substring(0, dotIndex);
+  const trigger2 = triggerName.substring(0, dotIndex);
   const phase = triggerName.slice(dotIndex + 1);
-  return [trigger, phase];
+  return [trigger2, phase];
 }
 var AnimationRendererFactory = class {
   constructor(delegate, engine, _zone) {
@@ -4532,11 +4723,11 @@ var AnimationRendererFactory = class {
     const namespaceId = type.id + "-" + this._currentId;
     this._currentId++;
     this.engine.register(namespaceId, hostElement);
-    const registerTrigger = (trigger) => {
-      if (Array.isArray(trigger)) {
-        trigger.forEach(registerTrigger);
+    const registerTrigger = (trigger2) => {
+      if (Array.isArray(trigger2)) {
+        trigger2.forEach(registerTrigger);
       } else {
-        this.engine.registerTrigger(componentId, namespaceId, hostElement, trigger.name, trigger);
+        this.engine.registerTrigger(componentId, namespaceId, hostElement, trigger2.name, trigger2);
       }
     };
     const animationTriggers = type.data["animation"];
@@ -4728,22 +4919,10 @@ var NoopAnimationsModule = _NoopAnimationsModule;
   }], null, null);
 })();
 
-// node_modules/@angular/cdk/fesm2022/keycodes.mjs
-var ENTER = 13;
-var SHIFT = 16;
-var CONTROL = 17;
-var ALT = 18;
-var SPACE = 32;
-var META = 91;
-var MAC_META = 224;
-function hasModifierKey(event, ...modifiers) {
-  if (modifiers.length) {
-    return modifiers.some((modifier) => event[modifier]);
-  }
-  return event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;
-}
-
 // node_modules/@angular/cdk/fesm2022/coercion.mjs
+function coerceBooleanProperty(value) {
+  return value != null && `${value}` !== "false";
+}
 function coerceNumberProperty(value, fallbackValue = 0) {
   return _isNumberValue(value) ? Number(value) : fallbackValue;
 }
@@ -4990,6 +5169,21 @@ var ObserversModule = _ObserversModule;
     }]
   }], null, null);
 })();
+
+// node_modules/@angular/cdk/fesm2022/keycodes.mjs
+var ENTER = 13;
+var SHIFT = 16;
+var CONTROL = 17;
+var ALT = 18;
+var SPACE = 32;
+var META = 91;
+var MAC_META = 224;
+function hasModifierKey(event, ...modifiers) {
+  if (modifiers.length) {
+    return modifiers.some((modifier) => event[modifier]);
+  }
+  return event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;
+}
 
 // node_modules/@angular/cdk/fesm2022/layout.mjs
 var _LayoutModule = class _LayoutModule {
@@ -6928,164 +7122,6 @@ var A11yModule = _A11yModule;
   }], null);
 })();
 
-// node_modules/@angular/cdk/fesm2022/bidi.mjs
-var DIR_DOCUMENT = new InjectionToken("cdk-dir-doc", {
-  providedIn: "root",
-  factory: DIR_DOCUMENT_FACTORY
-});
-function DIR_DOCUMENT_FACTORY() {
-  return inject(DOCUMENT);
-}
-var RTL_LOCALE_PATTERN = /^(ar|ckb|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|.*[-_](Adlm|Arab|Hebr|Nkoo|Rohg|Thaa))(?!.*[-_](Latn|Cyrl)($|-|_))($|-|_)/i;
-function _resolveDirectionality(rawValue) {
-  const value = rawValue?.toLowerCase() || "";
-  if (value === "auto" && typeof navigator !== "undefined" && navigator?.language) {
-    return RTL_LOCALE_PATTERN.test(navigator.language) ? "rtl" : "ltr";
-  }
-  return value === "rtl" ? "rtl" : "ltr";
-}
-var _Directionality = class _Directionality {
-  constructor(_document) {
-    this.value = "ltr";
-    this.change = new EventEmitter();
-    if (_document) {
-      const bodyDir = _document.body ? _document.body.dir : null;
-      const htmlDir = _document.documentElement ? _document.documentElement.dir : null;
-      this.value = _resolveDirectionality(bodyDir || htmlDir || "ltr");
-    }
-  }
-  ngOnDestroy() {
-    this.change.complete();
-  }
-};
-_Directionality.ɵfac = function Directionality_Factory(t) {
-  return new (t || _Directionality)(ɵɵinject(DIR_DOCUMENT, 8));
-};
-_Directionality.ɵprov = ɵɵdefineInjectable({
-  token: _Directionality,
-  factory: _Directionality.ɵfac,
-  providedIn: "root"
-});
-var Directionality = _Directionality;
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Directionality, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Optional
-    }, {
-      type: Inject,
-      args: [DIR_DOCUMENT]
-    }]
-  }], null);
-})();
-var _Dir = class _Dir {
-  constructor() {
-    this._dir = "ltr";
-    this._isInitialized = false;
-    this.change = new EventEmitter();
-  }
-  /** @docs-private */
-  get dir() {
-    return this._dir;
-  }
-  set dir(value) {
-    const previousValue = this._dir;
-    this._dir = _resolveDirectionality(value);
-    this._rawDir = value;
-    if (previousValue !== this._dir && this._isInitialized) {
-      this.change.emit(this._dir);
-    }
-  }
-  /** Current layout direction of the element. */
-  get value() {
-    return this.dir;
-  }
-  /** Initialize once default value has been set. */
-  ngAfterContentInit() {
-    this._isInitialized = true;
-  }
-  ngOnDestroy() {
-    this.change.complete();
-  }
-};
-_Dir.ɵfac = function Dir_Factory(t) {
-  return new (t || _Dir)();
-};
-_Dir.ɵdir = ɵɵdefineDirective({
-  type: _Dir,
-  selectors: [["", "dir", ""]],
-  hostVars: 1,
-  hostBindings: function Dir_HostBindings(rf, ctx) {
-    if (rf & 2) {
-      ɵɵattribute("dir", ctx._rawDir);
-    }
-  },
-  inputs: {
-    dir: "dir"
-  },
-  outputs: {
-    change: "dirChange"
-  },
-  exportAs: ["dir"],
-  standalone: true,
-  features: [ɵɵProvidersFeature([{
-    provide: Directionality,
-    useExisting: _Dir
-  }])]
-});
-var Dir = _Dir;
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Dir, [{
-    type: Directive,
-    args: [{
-      selector: "[dir]",
-      providers: [{
-        provide: Directionality,
-        useExisting: Dir
-      }],
-      host: {
-        "[attr.dir]": "_rawDir"
-      },
-      exportAs: "dir",
-      standalone: true
-    }]
-  }], null, {
-    change: [{
-      type: Output,
-      args: ["dirChange"]
-    }],
-    dir: [{
-      type: Input
-    }]
-  });
-})();
-var _BidiModule = class _BidiModule {
-};
-_BidiModule.ɵfac = function BidiModule_Factory(t) {
-  return new (t || _BidiModule)();
-};
-_BidiModule.ɵmod = ɵɵdefineNgModule({
-  type: _BidiModule,
-  imports: [Dir],
-  exports: [Dir]
-});
-_BidiModule.ɵinj = ɵɵdefineInjector({});
-var BidiModule = _BidiModule;
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BidiModule, [{
-    type: NgModule,
-    args: [{
-      imports: [Dir],
-      exports: [Dir]
-    }]
-  }], null, null);
-})();
-
 // node_modules/@angular/cdk/fesm2022/cdk.mjs
 var VERSION = new Version("17.1.0");
 
@@ -8000,11 +8036,11 @@ var _RippleRenderer = class _RippleRenderer {
   }
   /** Removes previously registered event listeners from the trigger element. */
   _removeTriggerEvents() {
-    const trigger = this._triggerElement;
-    if (trigger) {
-      pointerDownEvents.forEach((type) => _RippleRenderer._eventManager.removeHandler(type, trigger, this));
+    const trigger2 = this._triggerElement;
+    if (trigger2) {
+      pointerDownEvents.forEach((type) => _RippleRenderer._eventManager.removeHandler(type, trigger2, this));
       if (this._pointerUpEventsRegistered) {
-        pointerUpEvents.forEach((type) => trigger.removeEventListener(type, this, passiveCapturingEventOptions));
+        pointerUpEvents.forEach((type) => trigger2.removeEventListener(type, this, passiveCapturingEventOptions));
       }
     }
   }
@@ -8039,8 +8075,8 @@ var _MatRipple = class _MatRipple {
   get trigger() {
     return this._trigger || this._elementRef.nativeElement;
   }
-  set trigger(trigger) {
-    this._trigger = trigger;
+  set trigger(trigger2) {
+    this._trigger = trigger2;
     this._setupTriggerEventsIfEnabled();
   }
   constructor(_elementRef, ngZone, platform, globalOptions, _animationMode) {
@@ -8983,7 +9019,15 @@ var _MatInternalFormField = __MatInternalFormField;
 })();
 
 export {
+  Directionality,
   Platform,
+  trigger,
+  animate,
+  style,
+  state,
+  transition,
+  coerceBooleanProperty,
+  ObserversModule,
   FocusMonitor,
   MatCommonModule,
   MatRippleModule,
@@ -9012,4 +9056,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-DIOPDARC.js.map
+//# sourceMappingURL=chunk-GTBKZ3KW.js.map

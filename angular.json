@@ -72,13 +72,15 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "port": 4242,
           "configurations": {
             "production": {
               "buildTarget": "projeto:build:production"
             },
             "development": {
               "buildTarget": "projeto:build:development"
-            }
+            },
+
           },
           "defaultConfiguration": "development"
         },
