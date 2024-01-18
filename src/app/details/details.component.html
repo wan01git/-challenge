@@ -7,7 +7,7 @@
 </header>
 
 <div class="p-20">
-  <button class="shadow-md">
+  <button class="shadow-md p-2 flex flex-row ms-10" (click)="closeModal()">
     <mat-icon>arrow_left_alt</mat-icon>
     Back
   </button>
@@ -23,12 +23,13 @@
       height="700"
     />
     <div>
-      <strong>{{ country.name.common }}</strong>
+      <strong class="text-4xl">{{ country.name.common }}</strong>
       <div
-        class="items-center grid gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 w-full"
+        class="items-center grid gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 w-full mt-10"
       >
         <p class="mt-2 text-sm">
-          <strong>Native Name:</strong> {{ country.name.nativeName }}
+          <strong>Native Name:</strong>
+          {{ descomplica(country.name.nativeName) }}
         </p>
         <p class="mt-2 text-sm">
           <strong>Top Level Domain:</strong> {{ country.tld[0] }}
@@ -36,19 +37,34 @@
         <p class="mt-2 text-sm">
           <strong>Population:</strong> {{ country.population }}
         </p>
-        <p class="mt-2 text-sm"><strong>Currencies:</strong> <span>a</span></p>
+        <p class="mt-2 text-sm">
+          <strong>Currencies:</strong> {{ descomplica(country.currencies) }}
+        </p>
         <p class="mt-2 text-sm">
           <strong>Region:</strong> {{ country.region }}
         </p>
         <p class="mt-2 text-sm">
-          <strong>Languages:</strong> {{ country.capital }}
+          <strong>Languages:</strong>
+          {{ descomplicaLanguages(country.languages) }}
         </p>
-        <p class="mt-2 text-sm">
-          <strong>Capital:</strong> {{ country.capital }}
-        </p>
-        <p class="mt-2 text-sm">
-          <strong>Capital:</strong> {{ country.capital }}
-        </p>
+        <div>
+          <p class="mt-2 text-sm">
+            <strong>Sub Region:</strong> {{ country.subregion }}
+          </p>
+          <p class="mt-4 text-sm">
+            <strong>Capital:</strong> {{ country.capital }}
+          </p>
+        </div>
+      </div>
+      <div class="mt-10">
+        <strong>Border Countries: </strong>
+        <button
+          *ngFor="let a of country.borders"
+          class="border-solid border-2 p-1 mx-1"
+          [disabled]="true"
+        >
+          {{ a }}
+        </button>
       </div>
     </div>
   </div>
