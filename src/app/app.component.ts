@@ -24,7 +24,12 @@ export class AppComponent {
   }
 
   filter(valor: any) {
-    return valor;
+    this.datafiltered = [];
+    this.data.__zone_symbol__value.filter((option: any) => {
+      if (option.name.common.toUpperCase().includes(valor.toUpperCase())) {
+        this.datafiltered.push(option);
+      }
+    });
   }
 
   openDetails(countrie: any) {
