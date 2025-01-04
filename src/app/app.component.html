@@ -5,50 +5,54 @@
     </strong>
   </div>
 </header>
-<div
-  class="items-center grid gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 w-full mmt-5 p-1"
->
-  <mat-form-field class="mt-3 flex flex-row">
-    <mat-icon>search</mat-icon>
-    <input
-      class="shadow-md"
-      #pesquisa
-      matInput
-      [formControl]="searchInputControl"
-      [autocomplete]="'off'"
-      [placeholder]="'Search for a country'"
-      (keyup)="filter(pesquisa.value)"
-    />
-  </mat-form-field>
-
-  <mat-form-field class="final">
-    <mat-label>Tipo de nota</mat-label>
-    <mat-select placeholder="Filter by Region">
-      <mat-option value="NFCE">Africa</mat-option>
-      <mat-option value="SAT">America</mat-option>
-      <mat-option value="N/A">Asia</mat-option>
-      <mat-option value="N/A">Europa</mat-option>
-      <mat-option value="N/A">Oceania</mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
-<div
-  class="items-center grid gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 w-full p-20"
->
-  <mat-card
-    class="p-8"
-    *ngFor="let card of datafiltered"
-    (click)="openDetails(card)"
+<div>
+  <div
+    class="items-center grid gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 w-full mmt-5 p-1"
   >
-    <img mat-card-image [src]="card.flags.png" [alt]="card.flags.alt" />
-    <mat-card-content class="mt-5 shadow-xl">
-      <strong class="text-xl">{{ card.name.common }}</strong>
-      <p class="mt-2 text-sm">
-        <strong>Population:</strong> {{ card.population }}
-      </p>
-      <p class="mt-2 text-sm"><strong>Region:</strong> {{ card.region }}</p>
-      <p class="mt-2 text-sm"><strong>Capital:</strong> {{ card.capital }}</p>
-    </mat-card-content>
-  </mat-card>
+    <mat-form-field class="mt-3 flex flex-row">
+      <mat-icon>search</mat-icon>
+      <input
+        class="shadow-md"
+        #pesquisa
+        matInput
+        [formControl]="searchInputControl"
+        [autocomplete]="'off'"
+        [placeholder]="'Search for a country'"
+        (keyup)="filter(pesquisa.value)"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="final">
+      <mat-label>Tipo de nota</mat-label>
+      <mat-select placeholder="Filter by Region">
+        <mat-option value="NFCE">Africa</mat-option>
+        <mat-option value="SAT">America</mat-option>
+        <mat-option value="N/A">Asia</mat-option>
+        <mat-option value="N/A">Europa</mat-option>
+        <mat-option value="N/A">Oceania</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <router-outlet></router-outlet>
+  <div
+    class="items-center grid gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 w-full p-20"
+  >
+    <mat-card
+      class="p-8"
+      *ngFor="let card of datafiltered"
+      (click)="openDetails(card)"
+    >
+      <img mat-card-image [src]="card.flags.png" [alt]="card.flags.alt" />
+      <mat-card-content class="mt-5 shadow-xl">
+        <strong class="text-xl">{{ card.name.common }}</strong>
+        <p class="mt-2 text-sm">
+          <strong>Population:</strong> {{ card.population }}
+        </p>
+        <p class="mt-2 text-sm"><strong>Region:</strong> {{ card.region }}</p>
+        <p class="mt-2 text-sm"><strong>Capital:</strong> {{ card.capital }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
+
 <!-- Search -->

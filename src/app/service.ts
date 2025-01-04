@@ -9,8 +9,12 @@ export class ServiceAPI {
   getAll(): Promise<any> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`https://restcountries.com/v3.1/all`).subscribe(
-        (res) => resolve(res),
-        (err) => reject(err)
+        (res) => {
+          console.log(res), resolve(res);
+        },
+        (err) => {
+          console.log('erro req', err), reject(err);
+        }
       );
     });
   }

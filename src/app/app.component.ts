@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { DetailsComponent } from './details/details.component';
+import { Router } from '@angular/router';
 import { ServiceAPI } from './service';
 
 @Component({
@@ -16,7 +16,11 @@ export class AppComponent {
   data: any;
   datafiltered: any;
 
-  constructor(private _api: ServiceAPI, private _dialog: MatDialog) {
+  constructor(
+    private _api: ServiceAPI,
+    private _dialog: MatDialog,
+    private router: Router
+  ) {
     this.searchInputControl = new FormControl();
     this.data = this._api.getAll();
     this.datafiltered = this.data.__zone_symbol__value;
@@ -32,15 +36,9 @@ export class AppComponent {
     });
   }
 
-  openDetails(countrie: any) {
-    const dialogRef = this._dialog.open(DetailsComponent, {
-      width: '100%',
-      minWidth: '100%',
-      minHeight: '100vh',
-      maxHeight: '100vh',
-      data: {
-        countrie,
-      },
+  openDetails(obj: any) {
+    this.router.navigateByUrl('/details', {
+      state: { info: obj },
     });
   }
 }

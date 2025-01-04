@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-details',
@@ -8,14 +8,17 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class DetailsComponent {
   country: any;
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<DetailsComponent>
-  ) {
-    this.country = data.countrie;
-    console.log('data', this.country);
+  constructor(private router: Router) {
+    const nav = this.router.getCurrentNavigation();
+    this.country = nav?.extras.state?.['info'];
+    console.log('result', this.country);
   }
 
+  ngOnInit() {
+    if (!this.country) {
+      this.country = null;
+    }
+  }
   descomplica(obj: any) {
     let teste: any = Object.entries(obj);
     let aux = teste[teste.length - 1];
@@ -30,7 +33,5 @@ export class DetailsComponent {
 
     return teste;
   }
-  closeModal() {
-    this.dialogRef.close(true);
-  }
+  closeModal() {}
 }
