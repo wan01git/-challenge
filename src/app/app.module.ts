@@ -4,6 +4,7 @@ import {
   provideClientHydration,
 } from '@angular/platform-browser';
 
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,12 +18,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DetailsComponent } from './details/details.component';
-
+import { HomeComponent } from './home/home.component';
 @NgModule({
-  declarations: [AppComponent, DetailsComponent],
+  declarations: [AppComponent, DetailsComponent, HomeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -40,8 +42,9 @@ import { DetailsComponent } from './details/details.component';
     MatChipsModule,
     HttpClientModule,
     FormsModule,
+    CommonModule,
   ],
-  providers: [provideClientHydration()],
+  providers: [provideClientHydration(), provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

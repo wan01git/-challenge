@@ -1,0 +1,8 @@
+.final {
+  align-items: end;
+}
+
+.cdk-global-overlay-wrapper,
+.cdk-overlay-container {
+  z-index: 99999 !important;
+}

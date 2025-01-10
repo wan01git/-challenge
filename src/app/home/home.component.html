@@ -1,0 +1,64 @@
+<div class="flex flex-col">
+  <div class="flex justify-between mx-8 hover:bg-gray-100">
+    <div class="flex-row grow justify-items-start">
+      <mat-icon class="mt-5">search</mat-icon>
+      <mat-form-field>
+        <input
+          class="shadow-md"
+          matInput
+          [formControl]="searchInputControl"
+          [autocomplete]="'off'"
+          [placeholder]="'Search for a country'"
+          (keyup)="filter($event)"
+          (change)="filter($event)"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="final grow grid justify-items-end">
+      <form>
+        <mat-form-field class="p-0">
+          <mat-select
+            placeholder="Filter by Region relative z-10"
+            [(ngModel)]="regionFilter"
+          >
+            <mat-option value="">All</mat-option>
+            <mat-option value="Antarctic">Antarctic</mat-option>
+            <mat-option (ckick)="filterRegion()" value="Americas"
+              >Americas</mat-option
+            >
+            <mat-option value="Europe">Europe</mat-option>
+            <mat-option value="Africa">Africa</mat-option>
+            <mat-option value="Asia">Asia</mat-option>
+            <mat-option value="Oceania">Oceania</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+
+  <div
+    class="items-center grid gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 w-full p-20"
+  >
+    <mat-card
+      class="p-8"
+      *ngFor="let card of datafiltered"
+      (click)="openDetails(card)"
+    >
+      <img
+        mat-card-image
+        [src]="card.flags.png"
+        [alt]="card.flags.alt"
+        class="size-80"
+      />
+      <mat-card-content class="mt-5 shadow-xl">
+        <strong class="text-xl">{{ card.name.common }}</strong>
+        <p class="mt-2 text-sm">
+          <strong>Population:</strong> {{ card.population }}
+        </p>
+        <p class="mt-2 text-sm"><strong>Region:</strong> {{ card.region }}</p>
+        <p class="mt-2 text-sm"><strong>Capital:</strong> {{ card.capital }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
