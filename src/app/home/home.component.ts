@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ServiceAPI } from '../service';
 
 @Component({
@@ -16,13 +16,16 @@ export class HomeComponent implements OnInit {
   datafiltered: any;
   regionFilter: 'aaa' | undefined;
 
-  constructor(private _api: ServiceAPI, private router: Router) {
+  constructor(
+    private _api: ServiceAPI,
+    private router: Router,
+    private activeRouter: ActivatedRoute
+  ) {
     this.searchInputControl = new FormControl();
   }
 
   ngOnInit() {
-    this.data = this._api.getAll();
-    this.datafiltered = this.data?.__zone_symbol__value;
+    this.datafiltered = this.activeRouter.snapshot.data['country'];
   }
 
   filter(valor: any) {
@@ -33,8 +36,11 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  filterRegion() {
-    console.log('entrou', this.regionFilter);
+  filterRegion(a: any) {
+    console.log('entrou', a);
+    this.datafiltered = this.data.__zone_symbol__value.filter((option: any) =>
+      option.region.toUpperCase().includes(a.toUpperCase())
+    );
   }
 
   openDetails(obj: any) {
