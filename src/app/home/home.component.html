@@ -1,40 +1,38 @@
 <div class="flex flex-col">
-  <div class="flex justify-between mx-8">
+  <form class="flex justify-between mx-8">
     <div class="flex-row grow justify-items-start">
       <mat-icon class="mt-5">search</mat-icon>
       <mat-form-field>
         <input
           class="shadow-md"
           matInput
-          [formControl]="searchInputControl"
+          [formControl]="country"
           [autocomplete]="'off'"
           [placeholder]="'Search for a country'"
-          (keyup)="filter($event)"
-          (change)="filter($event)"
+          (keyup)="filter($event, undefined)"
+          (change)="filter($event, undefined)"
         />
       </mat-form-field>
     </div>
 
     <div class="final grow grid justify-items-end">
-      <form>
-        <mat-form-field class="p-0">
-          <mat-select
-            placeholder="Filter by Region relative z-10"
-            (ngModel)="(regionFilter)"
-            (selectionChange)="filterRegion($event.value)"
-          >
-            <mat-option value="">All</mat-option>
-            <mat-option value="Antarctic">Antarctic</mat-option>
-            <mat-option value="Americas">Americas</mat-option>
-            <mat-option value="Europe">Europe</mat-option>
-            <mat-option value="Africa">Africa</mat-option>
-            <mat-option value="Asia">Asia</mat-option>
-            <mat-option value="Oceania">Oceania</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </form>
+      <mat-form-field class="p-0">
+        <mat-select
+          placeholder="Filter by Region relative z-10"
+          [formControl]="region"
+          (selectionChange)="filter(undefined, $event.value)"
+        >
+          <mat-option value="">All</mat-option>
+          <mat-option value="Antarctic">Antarctic</mat-option>
+          <mat-option value="Americas">Americas</mat-option>
+          <mat-option value="Europe">Europe</mat-option>
+          <mat-option value="Africa">Africa</mat-option>
+          <mat-option value="Asia">Asia</mat-option>
+          <mat-option value="Oceania">Oceania</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-  </div>
+  </form>
 
   <div
     class="items-center grid gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 w-full p-20"
@@ -60,4 +58,7 @@
       </mat-card-content>
     </mat-card>
   </div>
+  <!--  <div *ngIf="!datafiltered" class="text-center mt-10 font-bold text-lg">
+    <h2>Nenhum resultado encontrado!</h2>
+  </div> -->
 </div>

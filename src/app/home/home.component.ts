@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceAPI } from '../service';
 
 @Component({
   selector: 'app-home',
@@ -9,38 +8,50 @@ import { ServiceAPI } from '../service';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  searchInputControl: FormControl;
+  country: FormControl;
+  region: FormControl;
   title = 'projeto';
   selected = new FormControl();
   data: any;
   datafiltered: any;
-  regionFilter: 'aaa' | undefined;
 
-  constructor(
-    private _api: ServiceAPI,
-    private router: Router,
-    private activeRouter: ActivatedRoute
-  ) {
-    this.searchInputControl = new FormControl();
+  constructor(private router: Router, private activeRouter: ActivatedRoute) {
+    this.country = new FormControl('');
+    this.region = new FormControl('');
   }
 
   ngOnInit() {
-    this.datafiltered = this.activeRouter.snapshot.data['country'];
+    this.data = this.activeRouter.snapshot.data['country'];
+    this.datafiltered = this.data;
   }
 
-  filter(valor: any) {
-    console.log('filtro', valor);
-    const filter = valor.target.value;
-    this.datafiltered = this.data.__zone_symbol__value.filter((option: any) =>
-      option.name.common.toUpperCase().includes(filter.toUpperCase())
-    );
-  }
+  filter(country?: any, region?: any) {
+    console.log('entrou', this.country.value, this.region.value);
 
-  filterRegion(a: any) {
-    console.log('entrou', a);
-    this.datafiltered = this.data.__zone_symbol__value.filter((option: any) =>
-      option.region.toUpperCase().includes(a.toUpperCase())
-    );
+    const filterCountry = (
+      country?.target.value || this.country.value
+    ).toUpperCase();
+    const filterRegion = (region || this.region.value).toUpperCase();
+    if (filterCountry != '' && filterRegion != '') {
+      this.datafiltered = this.data.filter(
+        (option: any) =>
+          option.region.toUpperCase().includes(filterRegion) &&
+          option.name.common.toUpperCase().includes(filterCountry)
+      );
+    }
+    if (filterCountry == '' && filterRegion != '') {
+      this.datafiltered = this.data.filter((option: any) =>
+        option.region.toUpperCase().includes(filterRegion)
+      );
+    }
+    if (filterCountry != '' && filterRegion == '') {
+      this.datafiltered = this.data.filter((option: any) =>
+        option.name.common.toUpperCase().includes(filterCountry)
+      );
+    }
+    if (filterCountry == '' && filterRegion == '') {
+      this.datafiltered = this.data;
+    }
   }
 
   openDetails(obj: any) {
